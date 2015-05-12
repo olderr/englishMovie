@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6724" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="WIBSpecialCell">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="90"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="150" height="90"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TzI-tp-x8M" userLabel="pic">
+                        <rect key="frame" x="3" y="2" width="144" height="72"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="锁遮罩.png" translatesAutoresizingMaskIntoConstraints="NO" id="xMC-Rz-fgq" userLabel="lock">
+                        <rect key="frame" x="3" y="2" width="144" height="72"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="40b-ox-sIk">
+                        <rect key="frame" x="5" y="76" width="137" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.43529411759999997" green="0.43529411759999997" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" red="0.93845533290000005" green="0.93845533290000005" blue="0.93845533290000005" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="xMC-Rz-fgq" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="2" id="732-1X-6qX"/>
+                <constraint firstAttribute="trailing" secondItem="40b-ox-sIk" secondAttribute="trailing" constant="20" id="Ari-xa-TNE"/>
+                <constraint firstAttribute="trailing" secondItem="TzI-tp-x8M" secondAttribute="trailing" constant="3" id="BhZ-5Y-d3t"/>
+                <constraint firstItem="TzI-tp-x8M" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="3" id="EBu-1D-bip"/>
+                <constraint firstAttribute="trailing" secondItem="xMC-Rz-fgq" secondAttribute="trailing" constant="3" id="Ldh-oD-KUq"/>
+                <constraint firstAttribute="bottom" secondItem="TzI-tp-x8M" secondAttribute="bottom" constant="16" id="MaH-Oz-cOh"/>
+                <constraint firstAttribute="bottom" secondItem="xMC-Rz-fgq" secondAttribute="bottom" constant="16" id="Swb-Bf-yKz"/>
+                <constraint firstItem="xMC-Rz-fgq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="3" id="jkh-yn-ZDh"/>
+                <constraint firstItem="40b-ox-sIk" firstAttribute="top" secondItem="xMC-Rz-fgq" secondAttribute="bottom" constant="2" id="mpd-ob-jWN"/>
+                <constraint firstItem="TzI-tp-x8M" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="2" id="nvp-lf-1GT"/>
+                <constraint firstItem="40b-ox-sIk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="qrc-Xt-46Q"/>
+                <constraint firstAttribute="bottom" secondItem="40b-ox-sIk" secondAttribute="bottom" constant="2" id="yDE-Sx-AVQ"/>
+            </constraints>
+            <connections>
+                <outlet property="lockImage" destination="xMC-Rz-fgq" id="xhw-0q-lmy"/>
+                <outlet property="pic" destination="TzI-tp-x8M" id="3fc-ob-Cbo"/>
+                <outlet property="title" destination="40b-ox-sIk" id="jow-EB-1Ke"/>
+            </connections>
+            <point key="canvasLocation" x="57" y="258"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="锁遮罩.png" width="142" height="71"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
