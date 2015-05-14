@@ -15,6 +15,9 @@
 #import "PTEHorizontalTableView.h"
 #import "SDWebImageManager.h"
 #import "UIImageView+WebCache.h"
+
+#import "WIBPlayMoiveDetailViewController.h"
+
 @interface WIBWantToDubViewController ()<PTETableViewDelegate>
 {
 
@@ -125,7 +128,7 @@
 - (void)backClick
 {
     [_moviePlay stopMovie];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - 配置UI
@@ -495,8 +498,8 @@
 #pragma mark - 创建相关课程tableview
 - (void)createCorrelationTable
 {
-    _correlationTable= [[PTEHorizontalTableView alloc]initWithFrame:CGRectMake(0, 25, kWIDTH, 60)];
-    _correlationTable.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 25, kWIDTH, 60) style:UITableViewStylePlain];
+    _correlationTable= [[PTEHorizontalTableView alloc]initWithFrame:CGRectMake(0, 25, kWIDTH, 80)];
+    _correlationTable.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 25, kWIDTH, 80 ) style:UITableViewStylePlain];
     _correlationTable.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     _correlationTable.tableView.allowsSelection = YES;
@@ -530,9 +533,9 @@
 
     return kWIDTH / 3.0;
 
-    CGSize size = [self jpgImageSizeWithHeaderData:_imagesDict[model.pic]];
-
-    return size.width * (size.height / 60.0);
+//    CGSize size = [self jpgImageSizeWithHeaderData:_imagesDict[model.pic]];
+//
+//    return size.width * (size.height / 80.0);
 }
 - (UITableViewCell *)tableView:(PTEHorizontalTableView *)horizontalTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -556,15 +559,52 @@
     }
     WIBMainModel *model = _correlationDataArray[indexPath.row];
 
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kWIDTH / 3.0, 60)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kWIDTH / 3.0, 80)];
+
+
     [imageView sd_setImageWithURL:[NSURL URLWithString:model.pic]];
+    //添加一个label
+    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 80 - 30, kWIDTH / 3.0, 30)];
+    titleView.backgroundColor = [UIColor blackColor];
+    titleView.alpha = 0.3;
+
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 80 - 30, kWIDTH / 3.0, 30)];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.adjustsFontSizeToFitWidth = YES;
+    titleLabel.text = model.title;
+
+
     [cell.contentView addSubview:imageView];
+    [cell.contentView addSubview:titleView];
+    [cell.contentView addSubview:titleLabel];
+
     return cell;
 }
+#pragma mark - 横向tableview的点击时间
 - (void)tableView:(PTEHorizontalTableView *)horizontalTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%d",(int)indexPath.row);
+    if (horizontalTableView == _rankingTable) {
+        //排行榜
+        WIBMainModel *model = _rankingDataArray[indexPath.row];
+
+        WIBPlayMoiveDetailViewController *playCtr = [[WIBPlayMoiveDetailViewController alloc]init];
+        playCtr.model = model;
+        [self.navigationController pushViewController:playCtr animated:YES];
+    }else {
+        WIBWantToDubViewController *wantDub = [[WIBWantToDubViewController alloc]init];
+        wantDub.model = _correlationDataArray[indexPath.row];
+        [self.navigationController pushViewController:wantDub animated:YES];
+
+        //相关
+//        [self.navigationController.viewControllers firstObject] pushViewController:self animated:
+        NSLog(@"%@",self.navigationController.viewControllers);
+
+    }
 }
+
+
 
 #pragma mark - tools 计算图片大小
 - (CGSize)jpgImageSizeWithHeaderData:(NSData *)data
@@ -670,6 +710,11 @@
     [data writeToFile:[NSString stringWithFormat:kMOVIE_INFO_ACHIVER_PATH , _oneModel.title] atomically:YES];
 }
 
+#pragma mark - 点击相关课程时的block
+- (void)setMainViewCotrollerSetWantToModel:(void (^)(WIBMainModel *))block
+{
+    mainViewCotrollerSetWantToModel = block;
+}
 
 
 @end

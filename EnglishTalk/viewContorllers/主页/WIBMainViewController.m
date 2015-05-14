@@ -8,6 +8,7 @@
 
 #import "WIBMainViewController.h"
 
+
 #import "UIImageView+WebCache.h"
 //头部滚动视图
 #import "GXCycleScrollView.h"
@@ -69,11 +70,10 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-//#pragma mark - 获取uid token
-//- (void)getUidUtoken
-//{
-//    NSUserDefaults
-//}
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+}
 #pragma mark - 定制Nav
 - (void)customNav
 {
@@ -189,6 +189,7 @@
     [_collectionView registerNib:cellNib forCellWithReuseIdentifier:@"cell"];
     //注册头部视图
     [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"scrollView"];
+
     //注册header
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"kindString"];
     
@@ -354,6 +355,12 @@
 
     }else {
         WIBWantToDubViewController *wantVC =[[WIBWantToDubViewController alloc]init];
+
+        [wantVC setMainViewCotrollerSetWantToModel:^(WIBMainModel * newModel) {
+//            WIBWantToDubViewController *want
+//            self.navigationController pushViewController: animated:
+        }];
+
         WIBMainModel * model = self.dataDict[self.titleArray[indexPath.section]][indexPath.row];
         if (model.url == nil) {
             wantVC.model = model;

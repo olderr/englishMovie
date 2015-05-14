@@ -13,6 +13,9 @@
 #import "WIBMainCollectionViewCell.h"
 #import "UIViewExt.h"
 
+//分类键view
+#import "WIBClassifyCollection.h"
+
 @interface WIBOtherMoreCtr ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout>
 {
     AFHTTPRequestOperationManager *_requestManager;
@@ -27,8 +30,9 @@
     NSString *_levelValue;
     NSString *_sortValue;
 
-
     UICollectionView *_collectionView;
+
+    WIBClassifyCollection *_classifyView;
 }
 //保存键盘
 @property (nonatomic , strong)NSMutableArray *keyboardDataArr;
@@ -52,7 +56,7 @@
     //下载数据
     [self requestData];
     //创建collection
-    [self createCollection];
+//    [self createCollection];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,10 +100,25 @@
 
         self.keyboardDataArr = responseObject[@"data"];
 
+        _classifyView = [[WIBClassifyCollection alloc]initWithArray:self.keyboardDataArr];
+
+        [_classifyView setArgumentsBlock:^(NSString *nature, NSString *level, NSString *sort) {
+            _natureIDValue = nature;
+            _levelValue = level;
+            _sortValue = sort;
+
+            //重新请求数据
+
+            [self requestData];
+        }];
+        //创建collection
+        [self createCollection];
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);
     }];
 }
+
 #pragma mark - 视频的请求
 - (void)requestData
 {
@@ -151,7 +170,7 @@
     flowLayout.minimumInteritemSpacing = 0;
     flowLayout.minimumLineSpacing = 4;
 
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, kWIDTH, kHEIGHT) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, kWIDTH, kHEIGHT) collectionViewLayout:flowLayout];
     _collectionView.backgroundColor = [UIColor whiteColor]
     ;
     _collectionView.delegate = self;
@@ -188,29 +207,23 @@
 {
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    NSLog(@"%f",_classifyView.viewHeight);
+    return CGSizeMake(kWIDTH, _classifyView.viewHeight);
+}
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHeader" forIndexPath:indexPath];
-    NSArray *subViews = headerView.subviews;
-    for (UIView *view in subViews) {
-        [view removeFromSuperview];
+
+
+    if (headerView == nil) {
+        headerView = [[UICollectionReusableView alloc]init];
     }
 
-    CGFloat x = (kWIDTH - 20)/4;
-
-    UILabel *label1 = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, kWIDTH - 30, 30)];
-    label1.textColor = [UIColor lightGrayColor];
-    label1.text = self.keyboardDataArr[0][@"name"];
-    [headerView addSubview:label1];
-
-    for (NSDictionary *dict in self.keyboardDataArr[0][@"list"]) {
-        UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(20, 30, kWIDTH, 25)];
-        [btn setBackgroundImage:[UIImage imageNamed:@"登录注册313立即登陆底板"] forState:UIControlStateSelected];
-        [btn setBackgroundImage:[UIImage imageNamed:@"白色底"] forState:UIControlStateNormal];
-
-    }
-
-    return nil;
+    headerView.userInteractionEnabled = YES;
+    [headerView addSubview:_classifyView];
+    return headerView;
 }
 
 @end

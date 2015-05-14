@@ -10,6 +10,12 @@
 #import "WIBMainModel.h"
 
 @interface WIBWantToDubViewController : UIViewController
+{
+    void(^mainViewCotrollerSetWantToModel)(WIBMainModel *);
+}
+
+- (void)setMainViewCotrollerSetWantToModel:(void(^)(WIBMainModel *))block;
+
 
 //一个url
 @property (nonatomic , copy)NSString *urlStr;

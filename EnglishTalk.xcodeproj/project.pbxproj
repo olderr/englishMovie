@@ -1226,6 +1226,7 @@
 		BC7E02AB1AF87F370051F688 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7E02981AF87F370051F688 /* UIProgressView+AFNetworking.m */; };
 		BC7E02AC1AF87F370051F688 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7E029A1AF87F370051F688 /* UIRefreshControl+AFNetworking.m */; };
 		BC7E02AD1AF87F370051F688 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7E029C1AF87F370051F688 /* UIWebView+AFNetworking.m */; };
+		BC8021C11B037C2D00675024 /* WIBClassifyCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8021C01B037C2D00675024 /* WIBClassifyCollection.m */; };
 		BC8473611AEF332E00746475 /* WIBWantToDubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8473601AEF332E00746475 /* WIBWantToDubViewController.m */; };
 		BC8473641AEFA87F00746475 /* WIBUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8473631AEFA87F00746475 /* WIBUserInfo.m */; };
 		BC9768A11AFA3CA500D325A5 /* WIBCollectCtr.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9768A01AFA3CA500D325A5 /* WIBCollectCtr.m */; };
@@ -2569,6 +2570,8 @@
 		BC7E029A1AF87F370051F688 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		BC7E029B1AF87F370051F688 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		BC7E029C1AF87F370051F688 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		BC8021BF1B037C2D00675024 /* WIBClassifyCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIBClassifyCollection.h; sourceTree = "<group>"; };
+		BC8021C01B037C2D00675024 /* WIBClassifyCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIBClassifyCollection.m; sourceTree = "<group>"; };
 		BC84735F1AEF332E00746475 /* WIBWantToDubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIBWantToDubViewController.h; sourceTree = "<group>"; };
 		BC8473601AEF332E00746475 /* WIBWantToDubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIBWantToDubViewController.m; sourceTree = "<group>"; };
 		BC8473621AEFA87F00746475 /* WIBUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIBUserInfo.h; sourceTree = "<group>"; };
@@ -2810,6 +2813,7 @@
 		BC1B543B1AF4680C00796462 /* 其他更多 */ = {
 			isa = PBXGroup;
 			children = (
+				BC8021BE1B037BEA00675024 /* 分类键盘 */,
 				BC1B543C1AF4684100796462 /* WIBOtherMoreCtr.h */,
 				BC1B543D1AF4684100796462 /* WIBOtherMoreCtr.m */,
 			);
@@ -4278,6 +4282,15 @@
 			path = "UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
+		BC8021BE1B037BEA00675024 /* 分类键盘 */ = {
+			isa = PBXGroup;
+			children = (
+				BC8021BF1B037C2D00675024 /* WIBClassifyCollection.h */,
+				BC8021C01B037C2D00675024 /* WIBClassifyCollection.m */,
+			);
+			name = "分类键盘";
+			sourceTree = "<group>";
+		};
 		BC84735D1AEF2EB900746475 /* 定制键盘 */ = {
 			isa = PBXGroup;
 			children = (
@@ -5670,6 +5683,7 @@
 				BC6D5DCF1AFB2E02005326C1 /* WIBMoiveDownCtr.m in Sources */,
 				BC190DF11AEB9708003E4A45 /* MJRefreshComponent.m in Sources */,
 				BC7E02A31AF87F370051F688 /* AFURLRequestSerialization.m in Sources */,
+				BC8021C11B037C2D00675024 /* WIBClassifyCollection.m in Sources */,
 				BC7E02AC1AF87F370051F688 /* UIRefreshControl+AFNetworking.m in Sources */,
 				BC9768A61AFA423100D325A5 /* WIBCollectMovieCell.m in Sources */,
 				BC2BAB611AE888EE007B4DA5 /* SDImageCache.m in Sources */,

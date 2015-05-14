@@ -184,10 +184,11 @@
 #pragma mark - tableView
 - (void)createTableView
 {
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 40, kWIDTH, kHEIGHT - 40 - 49) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWIDTH, kHEIGHT - 40 - 49) style:UITableViewStyleGrouped];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.sectionHeaderHeight = 0.01;
     [self.view sendSubviewToBack:_tableView];
     UINib *cellNib = [UINib nibWithNibName:@"WIBIShowCell" bundle:nil];
     [_tableView registerNib:cellNib forCellReuseIdentifier:@"cellcell"];
