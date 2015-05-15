@@ -356,11 +356,6 @@
     }else {
         WIBWantToDubViewController *wantVC =[[WIBWantToDubViewController alloc]init];
 
-        [wantVC setMainViewCotrollerSetWantToModel:^(WIBMainModel * newModel) {
-//            WIBWantToDubViewController *want
-//            self.navigationController pushViewController: animated:
-        }];
-
         WIBMainModel * model = self.dataDict[self.titleArray[indexPath.section]][indexPath.row];
         if (model.url == nil) {
             wantVC.model = model;
@@ -383,6 +378,7 @@
         //最新配音
         WIBNewMoreCtr *newMore = [[WIBNewMoreCtr alloc]init];
         [self.navigationController pushViewController:newMore animated:YES];
+
     }else {
         WIBOtherMoreCtr *otherCtr = [[WIBOtherMoreCtr alloc]init];
         otherCtr.title = self.titleArray[btn.tag - 10];
@@ -397,7 +393,7 @@
 #pragma mark - 滚动视图 的点击响应
 - (void)cycleScrollView:(GXCycleScrollView *)cycleScrollView DidTapImageView:(NSInteger)index
 {
-    NSLog(@"%d",index);
+//    NSLog(@"%d",index);
     WIBWantToDubViewController *wantVC =[[WIBWantToDubViewController alloc]init];
     WIBMainModel * model = self.dataDict[self.titleArray[0]][index];
     if (model.url == nil) {

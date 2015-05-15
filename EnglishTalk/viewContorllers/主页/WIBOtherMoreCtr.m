@@ -16,6 +16,9 @@
 //分类键view
 #import "WIBClassifyCollection.h"
 
+#import "WIBspecialViewController.h"
+#import "WIBWantToDubViewController.h"
+
 @interface WIBOtherMoreCtr ()<UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout>
 {
     AFHTTPRequestOperationManager *_requestManager;
@@ -26,14 +29,18 @@
      sort
      */
 
-    NSString *_natureIDValue;
-    NSString *_levelValue;
-    NSString *_sortValue;
+//    NSString *_natureIDValue;
+//    NSString *_levelValue;
+//    NSString *_sortValue;
 
     UICollectionView *_collectionView;
 
     WIBClassifyCollection *_classifyView;
 }
+@property (nonatomic , copy)NSString *natureIDValue;
+@property (nonatomic , copy)NSString *levelValue;
+@property (nonatomic , copy)NSString *sortValue;
+
 //保存键盘
 @property (nonatomic , strong)NSMutableArray *keyboardDataArr;
 //保存数据
@@ -50,13 +57,14 @@
     _levelValue = @"all";
     _sortValue = @"new";
     self.view.backgroundColor = [UIColor orangeColor];
+    self.view.userInteractionEnabled = YES;
     [self customNavRightBtn];
     //首先下载键盘
     [self requestKeyboard];
     //下载数据
     [self requestData];
     //创建collection
-//    [self createCollection];
+    [self createCollection];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,25 +102,21 @@
     if (self.flag == [NSNull null]) {
         self.flag = @"(null)";
     }
+
+    [_requestManager.operationQueue cancelAllOperations];
+
     NSString *url = [NSString stringWithFormat:kOTHER_KEYBOARD_URL , self.module , self.flag];
     NSLog(@"button %@",url);
     [_requestManager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
         self.keyboardDataArr = responseObject[@"data"];
 
-        _classifyView = [[WIBClassifyCollection alloc]initWithArray:self.keyboardDataArr];
+//        _classifyView = [[WIBClassifyCollection alloc]initWithArray:self.keyboardDataArr];
 
-        [_classifyView setArgumentsBlock:^(NSString *nature, NSString *level, NSString *sort) {
-            _natureIDValue = nature;
-            _levelValue = level;
-            _sortValue = sort;
 
-            //重新请求数据
-
-            [self requestData];
-        }];
+//        [self.view addSubview:_classifyView];
         //创建collection
-        [self createCollection];
+//        [self createCollection];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",error);
@@ -132,8 +136,17 @@
      sort
      */
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *url = [NSString stringWithFormat:kOTHER_MOVIE_URL , self.flag , [user objectForKey:kTOKEN] , [user objectForKey:kUID] , _natureIDValue , _levelValue , _sortValue];
-    NSLog(@"data %@",url);
+    NSString *url;
+    
+    if ([self.module isEqualToString:@"album"]) {
+        //专辑
+        url = [NSString stringWithFormat:kOTHER_ALBUM , _natureIDValue , _levelValue];
+    }else {
+        url = [NSString stringWithFormat:kOTHER_MOVIE_URL , self.flag , [user objectForKey:kTOKEN] , [user objectForKey:kUID] , _natureIDValue , _levelValue , _sortValue];
+    }
+
+    NSLog(@"data url : %@",url);
+    
     [_requestManager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //数据分析
         [self analyseData:responseObject[@"data"]];
@@ -170,17 +183,18 @@
     flowLayout.minimumInteritemSpacing = 0;
     flowLayout.minimumLineSpacing = 4;
 
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, kWIDTH, kHEIGHT) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, kWIDTH, kHEIGHT) collectionViewLayout:flowLayout];
     _collectionView.backgroundColor = [UIColor whiteColor]
     ;
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
+    _collectionView.userInteractionEnabled = YES;
 
     UINib *items = [UINib nibWithNibName:@"WIBMainCollectionViewCell" bundle:nil];
     [_collectionView registerNib:items forCellWithReuseIdentifier:@"item"];
 
-    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHeader"];
-
+    [_collectionView registerClass:[WIBClassifyCollection class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHeader"];
+    
     [self.view addSubview:_collectionView];
 }
 
@@ -209,21 +223,53 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    NSLog(@"%f",_classifyView.viewHeight);
-    return CGSizeMake(kWIDTH, _classifyView.viewHeight);
+//    NSLog(@"%f",_classifyView.viewHeight);
+    WIBClassifyCollection *classify = [[WIBClassifyCollection alloc]initWithArray:self.keyboardDataArr];
+    return CGSizeMake(kWIDTH, classify.viewHeight);
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHeader" forIndexPath:indexPath];
+    WIBClassifyCollection *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"sectionHeader" forIndexPath:indexPath];
 
 
     if (headerView == nil) {
-        headerView = [[UICollectionReusableView alloc]init];
+        headerView = [[WIBClassifyCollection alloc]init];
     }
+    __weak WIBOtherMoreCtr *weakSelf = self;
 
-    headerView.userInteractionEnabled = YES;
-    [headerView addSubview:_classifyView];
+    [headerView setArgumentsBlock:^(NSString *nature, NSString *level, NSString *sort) {
+
+        self.natureIDValue = nature;
+        self.levelValue = level;
+        self.sortValue = sort;
+
+        //重新请求数据
+        [_requestManager.operationQueue cancelAllOperations];
+        [weakSelf requestData];
+    }];
+    [headerView configViewWithArray:self.keyboardDataArr];
+
     return headerView;
 }
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.module isEqualToString:@"album"]) {
+        //专辑
+        WIBspecialViewController *special = [[WIBspecialViewController alloc]init];
+        special.model = self.dataArray[indexPath.row];
 
+        [self.navigationController pushViewController:special animated:YES];
+
+    }else {
+        WIBWantToDubViewController *wantVC =[[WIBWantToDubViewController alloc]init];
+
+        WIBMainModel * model = self.dataArray[indexPath.row];
+        if (model.url == nil) {
+            wantVC.model = model;
+        }else {
+            wantVC.urlStr = model.url;
+        }
+        [self.navigationController pushViewController:wantVC animated:YES];
+    }
+}
 @end

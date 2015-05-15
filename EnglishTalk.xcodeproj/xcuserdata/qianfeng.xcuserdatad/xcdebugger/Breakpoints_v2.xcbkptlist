@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EnglishTalk/viewContorllers/&#x4e3b;&#x9875;/WIBOtherMoreCtr.m"
-            timestampString = "453215253.748319"
+            timestampString = "453347924.088662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "-searchClick"
             landmarkType = "5">
          </BreakpointContent>
@@ -96,15 +96,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EnglishTalk/viewContorllers/&#x4e3b;&#x9875;/WIBOtherMoreCtr.m"
+            timestampString = "453347924.088662"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "-collectionView:viewForSupplementaryElementOfKind:atIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EnglishTalk/viewContorllers/&#x4e3b;&#x9875;/WIBClassifyCollection.m"
-            timestampString = "453220500.796914"
+            timestampString = "453305561.305808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "-collectionView:didSelectItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -115,13 +131,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EnglishTalk/viewContorllers/&#x4e3b;&#x9875;/WIBClassifyCollection.m"
-            timestampString = "453220500.796914"
+            filePath = "EnglishTalk/viewContorllers/&#x4e3b;&#x9875;/WIBMainViewController.m"
+            timestampString = "453305792.203948"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "-btnClick:"
+            startingLineNumber = "388"
+            endingLineNumber = "388"
+            landmarkName = "-moreClick:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -66,11 +66,13 @@
     title.textAlignment = NSTextAlignmentCenter;
     self.navigationItem.titleView = title;
 
-    UIButton *leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 44, 44)];
+    UIView *btnBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 44, 44)];
+    btnBg.userInteractionEnabled = YES;
+    UIButton *leftBtn = [[UIButton alloc]initWithFrame:CGRectMake(-22, 0, 44, 44)];
     [leftBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchDown];
-
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftBtn];
+    [btnBg addSubview:leftBtn];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:btnBg];
 }
 - (void)backClick
 {

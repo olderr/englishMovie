@@ -8,14 +8,18 @@
 
 #import "WIBClassifyCollection.h"
 
-#define header_hight 40
-#define item_hight 40
+#define header_hight 30
+#define item_hight 30
 
 @implementation WIBClassifyCollection
 {
     NSString *_natureIDValue;
     NSString *_levelValue;
     NSString *_sortValue;
+
+    NSInteger _natureNum;
+    NSInteger _levelNum;
+    NSInteger _sortNum;
 }
 
 
@@ -23,7 +27,7 @@
 - (instancetype)initWithArray:(NSArray *)array
 {
     self.dataArray = array;
-//    NSLog(@"%@",self.dataArray);
+
     self.userInteractionEnabled = YES;
     if (self = [super init]) {
 
@@ -31,10 +35,24 @@
         _levelValue = @"all";
         _sortValue = @"new";
 
+        _natureNum = 0;
+        _levelNum = 0;
+        _sortNum = 0;
+
         self.backgroundColor = [UIColor whiteColor];
         [self createKeyBoard];
+
     }
     return self;
+}
+
+- (void)configViewWithArray:(NSArray *)array
+{
+    self.dataArray = array;
+    self.userInteractionEnabled = YES;
+
+    self.backgroundColor = [UIColor whiteColor];
+    [self createKeyBoard];
 }
 
 - (void)createKeyBoard
@@ -42,7 +60,7 @@
     //计算需要多少高度
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.itemSize = CGSizeMake(kWIDTH / 5, kWIDTH / 10);
+    flowLayout.itemSize = CGSizeMake(kWIDTH / 5, item_hight);
     flowLayout.minimumInteritemSpacing = 5;
     flowLayout.minimumLineSpacing = 5;
 
@@ -52,7 +70,7 @@
     _keyboardCollection.backgroundColor = [UIColor whiteColor];
     _keyboardCollection.delegate = self;
     _keyboardCollection.dataSource = self;
-//    _keyboardCollection.scrollEnabled = NO;
+    _keyboardCollection.scrollEnabled = NO;
 
     //注册item
     [_keyboardCollection registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"item"];
@@ -69,11 +87,12 @@
 - (CGFloat)countViewHight
 {
     CGFloat h = header_hight * self.dataArray.count;
+
     for (NSDictionary *dict in self.dataArray) {
         if ([dict[@"list"] count] / 4 < [dict[@"list"] count] / 4.0) {
-            h += ([dict[@"list"] count] / 4 + 1)* item_hight;
+            h += ([dict[@"list"] count] / 4 + 1)* (item_hight + 5);
         }else {
-            h += ([dict[@"list"] count] / 4)* item_hight;
+            h += ([dict[@"list"] count] / 4)* (item_hight + 5);
         }
     }
     self.viewHeight = h;
@@ -100,29 +119,30 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"item" forIndexPath:indexPath];
-    if (indexPath.row == 0) {
-        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"SearchPage_NoResultContectButton"]];
-    }else {
-        cell.backgroundColor = [UIColor whiteColor];
-    }
 
-    cell.layer.cornerRadius = 20.0;
+    cell.layer.cornerRadius = item_hight / 2.0;
     cell.layer.masksToBounds = YES;
     cell.userInteractionEnabled = YES;
     [[cell.contentView.subviews lastObject] removeFromSuperview];
     [[cell.contentView.subviews firstObject] removeFromSuperview];
-    UIButton *buttn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kWIDTH / 5.0, item_hight)];
-
-    buttn.tag = indexPath.row * 100 + indexPath.row;
-    [buttn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
 
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kWIDTH / 5.0, item_hight)];
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor lightGrayColor];
-    label.font = [UIFont systemFontOfSize:18];
+    label.font = [UIFont systemFontOfSize:15];
     label.text = self.dataArray[indexPath.section][@"list"][indexPath.row][@"name"];
     [cell.contentView addSubview:label];
-    [cell.contentView addSubview:buttn];
+
+    if ((indexPath.row == _natureNum && indexPath.section == 0) || (indexPath.row == _levelNum && indexPath.section == 1) || (indexPath.row == _sortNum && indexPath.section == 2)) {
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"SearchPage_NoResultContectButton"]];
+        label.textColor = [UIColor whiteColor];
+    }else {
+        label.textColor = [UIColor grayColor];
+        cell.backgroundColor = [UIColor whiteColor];
+    }
+
+    cell.tag = (indexPath.section + 1) * 200 + indexPath.row;
+//    NSLog(@"%ld",cell.tag);
+
     return cell;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -145,26 +165,43 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        _natureIDValue = self.dataArray[indexPath.section][@"value"];
-    }else if (indexPath.row == 1) {
-        _levelValue = self.dataArray[indexPath.section][@"value"];
-    }else {
-        _sortValue = self.dataArray[indexPath.section][@"value"];;
+//    static NSString *nature = @"all";
+//    static NSString *level = @"new";
+//    static NSString *sort = @"new";
+
+    if (indexPath.section == 0) {
+        _natureIDValue = self.dataArray[indexPath.section][@"list"][indexPath.row][@"value"];
+        _natureNum = indexPath.row;
+    }else if (indexPath.section == 1) {
+        _levelValue = self.dataArray[indexPath.section][@"list"][indexPath.row][@"value"];
+        _levelNum = indexPath.row;
+    }else if (indexPath.section == 2){
+        _sortValue = self.dataArray[indexPath.section][@"list"][indexPath.row][@"value"];
+        _sortNum = indexPath.row;
     }
+
     ArgumentsBlock(_natureIDValue , _levelValue , _sortValue);
-}
-- (void)btnClick:(UIButton *)btn
-{
-    if (btn.tag/100 == 0) {
-        _natureIDValue = self.dataArray[btn.tag%100][@"value"];
-    }else if (btn.tag/100 == 1) {
-        _levelValue = self.dataArray[btn.tag%100][@"value"];
-    }else {
-        _sortValue = self.dataArray[btn.tag%100][@"value"];;
+    [_keyboardCollection reloadData];
+    
+    return;
+    //改变颜色
+
+    for (int i = 0; i < [self.dataArray[indexPath.section][@"list"] count]; i++) {
+        UICollectionViewCell *cell = (UICollectionViewCell *)[self viewWithTag:(indexPath.section + 1) * 200 + indexPath.row];
+        UILabel *label = (UILabel *)cell.contentView.subviews[0];
+        if (i == indexPath.row) {
+            //点击的那个item
+            cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"SearchPage_NoResultContectButton"]];
+            label.textColor = [UIColor whiteColor];
+            NSLog(@"select %d",i);
+        }else {
+            label.textColor = [UIColor grayColor];
+            cell.backgroundColor = [UIColor whiteColor];
+            NSLog(@"normal %d",i);
+        }
     }
-    ArgumentsBlock(_natureIDValue , _levelValue , _sortValue);
 }
+
 - (void)setArgumentsBlock:(void (^)(NSString *, NSString *, NSString *))block
 {
     ArgumentsBlock = block;

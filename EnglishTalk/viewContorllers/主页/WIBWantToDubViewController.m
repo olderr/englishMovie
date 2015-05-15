@@ -128,7 +128,7 @@
 - (void)backClick
 {
     [_moviePlay stopMovie];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 配置UI
